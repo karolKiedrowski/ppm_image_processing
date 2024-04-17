@@ -4,7 +4,7 @@
 /*
 	Dodanie potrzebnych funkcjonalnoœci do klasy:
 		- dodaæ zapis binarnych plików P4
-
+		- ulepszyæ zapis danych do pliku ppm
 */
 
 class PPM_parser
@@ -15,11 +15,12 @@ public:
 
 	void display_ppm_file() const;
 	void display_pgm_file() const;
-	void save_ppm_file();
-	bool save_image_in_grayscale(std::string file_name) const;
+	void save_ppm_file() const;
+	bool save_image_in_grayscale(const std::string& file_name) const;
 	bool grayscale_image_histogram_equalization();
 	void grayscale_image_gamma_correction(const double& gamma = 0.5);
 	void grayscale_image_filtering();
+	void grayscale_image_thresholding(const double& threshold = 0.5);
 
 private:
 	struct Pixel
@@ -53,6 +54,8 @@ private:
 	// methodes for grayscale image allocation
 	// zmieniæ wartoœæ zwracan¹ na bool
 	void pgm_image_allocate();
+	bool save_text_pgm(const std::string& file_name) const;
+	bool save_binary_pgm(const std::string& file_name) const;
 	void grayscale_avaraging_method() const;
 	void grayscale_weighted_method() const;
 	PGM_file grayscale_image_file_;

@@ -1,2 +1,27 @@
-﻿  PPM_parser_project.cpp
+﻿  PPM_parser.cpp
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(62,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(67,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(69,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(121,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(162,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(164,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(184,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(193,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(360,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(362,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(439,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(452,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(495,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(509,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(518,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(521,15): warning C4244: "=": konwersja z "double" do "unsigned int", możliwa utrata danych
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(546,49): warning C4244: "=": konwersja z "double" do "unsigned int", możliwa utrata danych
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(607,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(637,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(645,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(651,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(653,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  PPM_parser_project.cpp
+  Generowanie kodu...
+C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\PPM_parser.cpp(370,1): warning C4715: "PPM_parser::save_binary_pgm”: niewszystkie ścieżki kodu zwracają wartość
   PPM_parser_project.vcxproj -> C:\Rozwoj_osobisty\Projects\Widzenie_Komputerowe\PPM_parser_project\x64\Debug\PPM_parser_project.exe

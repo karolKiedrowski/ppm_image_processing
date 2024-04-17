@@ -6,13 +6,14 @@
 
 int main(int argc, char* argv[])
 {
-	PPM_parser image("pole.ppm");
+	PPM_parser image("bober.ppm");
 	//image.grayscale_image_histogram_equalization();
 	//image.grayscale_image_gamma_correction(0.9);
 	//image.display_pgm_file();
 	//image.display_ppm_file();
 	image.grayscale_image_filtering();
-	image.save_image_in_grayscale("pole.pgm");
+	//image.grayscale_image_thresholding();
+	image.save_image_in_grayscale("bober.pgm");
 	//image.save_ppm_file();
 
 	/*
@@ -33,7 +34,8 @@ int main(int argc, char* argv[])
 	//image.display_ppm_file();
 	//image.grayscale_image_histogram_equalization();
 	//image.grayscale_image_gamma_correction();
-	image.grayscale_image_filtering();
+	//image.grayscale_image_filtering();
+	image.grayscale_image_thresholding();
 	image.save_image_in_grayscale(argv[2]);
 	*/
 	

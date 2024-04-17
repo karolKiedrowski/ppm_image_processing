@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+//#include <arm_neon.h>
 
 PPM_parser::PPM_parser(std::string file_name)
 {
@@ -157,7 +158,7 @@ bool PPM_parser::ppm_binary_image_allocate(const std::string& file_name)
 	}
 	*/
 	
-	unsigned char unit;
+	unsigned char unit{};
 	for (int i = 0; i < image_file_.rows; i++)
 	{
 		for (int j = 0; j < image_file_.cols; j++)
@@ -249,7 +250,7 @@ void PPM_parser::display_pgm_file() const
 	}
 }
 
-void PPM_parser::save_ppm_file()
+void PPM_parser::save_ppm_file() const
 {
 	if (memory_allocated_ == false)
 	{
@@ -297,14 +298,96 @@ void PPM_parser::save_ppm_file()
 	file.close();
 }
 
-bool PPM_parser::save_image_in_grayscale(std::string file_name) const
+bool PPM_parser::save_text_pgm(const std::string& file_name) const
 {
-	if (image_file_.pixels == nullptr)
+	if (grayscale_image_file_.pixels == nullptr)
 	{
 		std::cout << "Data is not loaded, no data will be saved.\n";
 		return false;
 	}
 
+	std::ofstream file;
+	file.open(file_name, std::ios::out);
+	if (!file.is_open())
+	{
+		std::cout << "File opening failed.\n";
+		return false;
+	}
+
+	file << grayscale_image_file_.header << "\n";
+	file << grayscale_image_file_.cols << " " << grayscale_image_file_.rows << "\n";
+	file << grayscale_image_file_.color_inf << "\n";
+
+	for (unsigned int i = 0; i < grayscale_image_file_.rows; i++)
+	{
+		for (unsigned int j = 0; j < grayscale_image_file_.cols; j++)
+		{
+			file << grayscale_image_file_.pixels[i][j] << " ";
+		}
+		file << "\n";
+	}
+	if (file.fail())
+	{
+		std::cout << "File stream operations failed.\n";
+		return false;
+	}
+
+	file.close();
+	return true;
+}
+
+bool PPM_parser::save_binary_pgm(const std::string& file_name) const
+{
+	if (grayscale_image_file_.pixels == nullptr)
+	{
+		std::cout << "Data is not loaded, no data will be saved.\n";
+		return false;
+	}
+
+	std::ofstream file;
+	file.open(file_name, std::ios::out | std::ios::binary);
+	if (!file.is_open())
+	{
+		std::cout << "File opening failed.\n";
+		return false;
+	}
+
+	file << grayscale_image_file_.header << "\n";
+	file << grayscale_image_file_.cols << " " << grayscale_image_file_.rows << "\n";
+	file << grayscale_image_file_.color_inf << "\n";
+
+	unsigned char unit{};
+	for (int i = 0; i < grayscale_image_file_.rows; i++)
+	{
+		for (int j = 0; j < grayscale_image_file_.cols; j++)
+		{
+			unit = (unsigned char)grayscale_image_file_.pixels[i][j];
+			file.write(reinterpret_cast<char*>(&unit), sizeof(unit));
+		}
+	}
+
+	file.close();
+}
+
+bool PPM_parser::save_image_in_grayscale(const std::string& file_name) const
+{
+	if (grayscale_image_file_.pixels == nullptr)
+	{
+		std::cout << "Data is not loaded, no data will be saved.\n";
+		return false;
+	}
+
+	if (grayscale_image_file_.header == "P2")
+		return save_text_pgm(file_name);
+	else if (grayscale_image_file_.header == "P5")
+		return save_binary_pgm(file_name);
+	else
+	{
+		std::cout << "Wrong header, maybe grayscale image is not allocated in program memory.\n";
+		return false;
+	}
+
+	/*
 	std::ofstream file;
 	file.open(file_name, std::ios::out);
 	if (!file.is_open())
@@ -333,6 +416,7 @@ bool PPM_parser::save_image_in_grayscale(std::string file_name) const
 	}
 
 	file.close();
+	*/
 
 	return true;
 }
@@ -347,7 +431,7 @@ void PPM_parser::pgm_image_allocate()
 	if (image_file_.header == "P3")
 		grayscale_image_file_.header = "P2";
 	else if (image_file_.header == "P6")
-		grayscale_image_file_.header = "P4";
+		grayscale_image_file_.header = "P5";
 	grayscale_image_file_.rows		= image_file_.rows;
 	grayscale_image_file_.cols		= image_file_.cols;
 	grayscale_image_file_.color_inf = image_file_.color_inf;
@@ -461,11 +545,13 @@ void PPM_parser::grayscale_image_gamma_correction(const double& gamma)
 		{
 			grayscale_image_file_.pixels[i][j] = std::pow(grayscale_image_file_.pixels[i][j], (1 / gamma));
 			
+			/*
 			if (grayscale_image_file_.pixels[i][j] > 256 || grayscale_image_file_.pixels[i][j] < 0)
 			{
 				std::cout << "New color information is out of range.\n";
 				return;
 			}
+			*/
 		}
 	}
 }
@@ -479,6 +565,11 @@ void PPM_parser::grayscale_image_filtering()
 		1 2 1
 		i ta maske podzielic na 16
 	*/
+	if (grayscale_image_file_.pixels == nullptr)
+	{
+		std::cout << "Grayscale image uninitialized, cannot perform image filtering.\n";
+		return;
+	}
 
 	unsigned int** filtered = new unsigned int*[grayscale_image_file_.rows];
 	for (unsigned int i = 0; i < grayscale_image_file_.rows; i++)
@@ -506,9 +597,9 @@ void PPM_parser::grayscale_image_filtering()
 	{
 		for (unsigned int j = 1; j < (grayscale_image_file_.cols); j++)
 		{
-			filtered[i][j] = (grayscale_image_file_.pixels[i - 1][j - 1] + grayscale_image_file_.pixels[i - 1][j] + grayscale_image_file_.pixels[i - 1][j + 1]);
-			filtered[i][j] += (grayscale_image_file_.pixels[i][j - 1] + grayscale_image_file_.pixels[i][j] + grayscale_image_file_.pixels[i][j + 1]);
-			filtered[i][j] += (grayscale_image_file_.pixels[i + 1][j - 1] + grayscale_image_file_.pixels[i + 1][j] + grayscale_image_file_.pixels[i + 1][j + 1]);
+			filtered[i][j] = (grayscale_image_file_.pixels[i - 1][j - 1] + 2 * grayscale_image_file_.pixels[i - 1][j] + grayscale_image_file_.pixels[i - 1][j + 1]);
+			filtered[i][j] += (2 * grayscale_image_file_.pixels[i][j - 1] + 4 * grayscale_image_file_.pixels[i][j] + 2 * grayscale_image_file_.pixels[i][j + 1]);
+			filtered[i][j] += (grayscale_image_file_.pixels[i + 1][j - 1] + 2 * grayscale_image_file_.pixels[i + 1][j] + grayscale_image_file_.pixels[i + 1][j + 1]);
 			filtered[i][j] /= divider;
 		}
 	}
@@ -520,4 +611,54 @@ void PPM_parser::grayscale_image_filtering()
 	delete[] grayscale_image_file_.pixels;
 
 	grayscale_image_file_.pixels = filtered;
+}
+
+void PPM_parser::grayscale_image_thresholding(const double& threshold)
+{
+	if (grayscale_image_file_.pixels == nullptr)
+	{
+		std::cout << "Grayscale image uninitialized, cannot perform image thresholding.\n";
+		return;
+	}
+
+	unsigned int size = grayscale_image_file_.color_inf + 1;
+	double* gray_level_hist = new double[size]();
+
+	for (unsigned int i = 0; i < grayscale_image_file_.rows; i++)
+	{
+		for (unsigned int j = 0; j < grayscale_image_file_.cols; j++)
+		{
+			gray_level_hist[grayscale_image_file_.pixels[i][j]]++;
+		}
+	}
+
+	unsigned int number_of_pixels = grayscale_image_file_.rows * grayscale_image_file_.cols;
+
+	for (int i = 0; i < size; i++)
+	{
+		gray_level_hist[i] /= number_of_pixels;
+		//std::cout << i << " dividing resoult: " << gray_level_hist[i] << "\n";
+	}
+
+	double* distributor = new double[size]();
+	distributor[0] = gray_level_hist[0];
+	for (int i = 1; i < size; i++)
+	{
+		distributor[i] = distributor[i - 1] + gray_level_hist[i];
+		std::cout << i << " distributor: " << distributor[i] << "\n";
+	}
+
+	for (int i = 0; i < grayscale_image_file_.rows; i++)
+	{
+		for (int j = 0; j < grayscale_image_file_.cols; j++)
+		{
+			if (distributor[grayscale_image_file_.pixels[i][j]] > threshold)
+				grayscale_image_file_.pixels[i][j] = 255;
+			else
+				grayscale_image_file_.pixels[i][j] = 0;
+		}
+	}
+
+	delete[]distributor;
+	delete[]gray_level_hist;
 }
